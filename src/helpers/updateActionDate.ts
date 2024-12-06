@@ -3,13 +3,14 @@ import chalk from "chalk"
 import { getRandomNumber } from "./getRandomNumber"
 import { Wallet } from "../db/database"
 import { config } from "../config"
+import { Op } from "sequelize"
 
 const updateExpired = async () => {
   const now = new Date()
 
   const wallets = await Wallet.findAll({
     where: {
-      nextActionDate: null,
+      [Op.or]: [{ nextActionDate: null }, { nextActionDate: { [Op.lt]: new Date() } }],
     },
   })
 
