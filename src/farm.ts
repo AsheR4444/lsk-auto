@@ -69,7 +69,7 @@ const farm = async () => {
         logger.error(`${wallet.name}: Insufficient balance`)
 
         await browser.close()
-        return
+        continue
       }
 
       const status = await action()
