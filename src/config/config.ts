@@ -2,13 +2,13 @@ import { ConfigType } from "./types"
 
 const config: ConfigType = {
   ethAmountToSwap: {
-    from: 0.00004,
-    to: 0.0005,
+    from: 0.000123,
+    to: 0.0002,
   },
-  minBalance: 0.001,
+  minBalance: 0.0005,
   actionsDelay: {
-    from: 43200,
-    to: 86400,
+    from: 28800,
+    to: 43200,
   },
   delayInCaseOfError: 120,
   maxRetries: 10,
