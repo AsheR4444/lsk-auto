@@ -1,0 +1,48 @@
+{
+  "name": "lisk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx tsx ./src/app.ts",
+    "lint": "eslint --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/user-agents": "^1.0.4",
+    "@eslint/js": "^9.16.0",
+    "@playwright/test": "^1.49.0",
+    "@types/big.js": "^6.2.2",
+    "@types/node": "^22.7.8",
+    "@types/prompts": "^2.4.9",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "prettier": "^3.3.3",
+    "sequelize": "^6.37.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.17.0"
+  },
+  "dependencies": {
+    "@raznorabochiy/wallet-mock": "^1.0.0",
+    "@reservoir0x/relay-sdk": "^1.4.7",
+    "axios": "^1.7.8",
+    "big.js": "^6.2.2",
+    "chalk": "^5.3.0",
+    "dotenv": "^16.4.7",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "figlet": "^1.8.0",
+    "https-proxy-agent": "^7.0.5",
+    "playwright": "^1.49.0",
+    "prompts": "^2.4.2",
+    "sqlite3": "^5.1.7",
+    "user-agents": "^1.1.377",
+    "viem": "^2.21.53",
+    "winston": "^3.17.0"
+  }
+}

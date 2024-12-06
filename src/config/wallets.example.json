@@ -1,0 +1,7 @@
+[
+    {
+        "name": "name",
+        "privateKey": "private key",
+        "proxy": "http://login:password@ip:port"
+    }
+]
