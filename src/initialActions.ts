@@ -1,23 +1,26 @@
 import { AxiosInstance } from "axios"
 
 import { claimUsdcHolding, claimUsdtHolding, claimLskHolding, Controller } from "./tasks"
-import { getRandomNumber, sleep } from "./helpers"
+import { getRandomNumber, logger, sleep } from "./helpers"
 
 const initialActions = async (controller: Controller, axiosInstance: AxiosInstance) => {
   const doUsdcAction = async () => {
-    await controller.velodrome.swapEthToUsdc()
+    const res = await controller.velodrome.swapEthToUsdc()
+    logger.info(res)
     await sleep(getRandomNumber(5, 50))
     await claimUsdcHolding(controller.wallet, axiosInstance)
   }
 
   const doUsdtAction = async () => {
-    await controller.velodrome.swapEthToUsdt()
+    const res = await controller.velodrome.swapEthToUsdt()
+    logger.info(res)
     await sleep(getRandomNumber(5, 50))
     await claimUsdtHolding(controller.wallet, axiosInstance)
   }
 
   const doLskAction = async () => {
-    await controller.velodrome.swapEthToLsk()
+    const res = await controller.velodrome.swapEthToLsk()
+    logger.info(res)
     await sleep(getRandomNumber(5, 50))
     await claimLskHolding(controller.wallet, axiosInstance)
   }

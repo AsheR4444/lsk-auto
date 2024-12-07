@@ -52,7 +52,7 @@ const farm = async () => {
 
       if (!wallet.isInitialDone) {
         await initialActions(controller, axiosInstance)
-        await updateNextActionDate(wallet.privateKey, config.delayInCaseOfError)
+        await updateNextActionDate(wallet.privateKey, getRandomNumber(config.actionsDelay.from, config.actionsDelay.to))
         await updateInitialActions(wallet.privateKey)
 
         const nextWallet = await getNextWallet()
@@ -68,6 +68,7 @@ const farm = async () => {
       if (action === "Insufficient balance") {
         logger.error(`${wallet.name}: Insufficient balance`)
 
+        await updateNextActionDate(wallet.privateKey, getRandomNumber(config.actionsDelay.from, config.actionsDelay.to))
         await browser.close()
         continue
       }
