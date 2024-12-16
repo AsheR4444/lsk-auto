@@ -1,9 +1,11 @@
 import { AxiosInstance } from "axios"
 
-import { claimUsdcHolding, claimUsdtHolding, claimLskHolding, Controller } from "./tasks"
+import { claimUsdcHolding, claimUsdtHolding, claimLskHolding, Controller, claimTask } from "./tasks"
 import { getRandomNumber, logger, sleep } from "./helpers"
 
 const initialActions = async (controller: Controller, axiosInstance: AxiosInstance) => {
+  await claimTask(controller.wallet.address, 1, "Visit Lisk Portal Daily", axiosInstance)
+
   const doUsdcAction = async () => {
     const res = await controller.velodrome.swapEthToUsdc()
     logger.info(res)
@@ -31,7 +33,7 @@ const initialActions = async (controller: Controller, axiosInstance: AxiosInstan
 
   for (const action of shuffledActions) {
     await action()
-    await sleep(getRandomNumber(120, 3000))
+    await sleep(getRandomNumber(120, 300))
   }
 }
 

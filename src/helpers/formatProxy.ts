@@ -10,5 +10,3 @@ const formatProxy = (proxy: string) => {
 }
 
 export { formatProxy }
-
-//194.88.106.169:9999

@@ -48,7 +48,10 @@ class Velodrome {
         const page = await this.context.newPage()
         await page.bringToFront()
         logger.info(`Wallet ${this.wallet.name} | Started to swap ${fromToken.name} to ${toToken.name}`)
+        const fromTokenIsWeth = fromToken.name === WETHToken.name
         const fromTokenIsETH = fromToken.name === ETHToken.name
+        const toTokenIsWeth = toToken.name === WETHToken.name
+        const toTokenIsEth = toToken.name === ETHToken.name
 
         await installMockWallet({
           page,
@@ -62,15 +65,33 @@ class Velodrome {
 
         await page.fill("input[required]", amount)
 
-        if (!fromTokenIsETH) {
-          const buttonAllow = page.locator('text="Allow"')
+        let button
 
-          await expect(buttonAllow).toBeEnabled({ timeout: 10 * 1000 })
-          await buttonAllow.click()
-          await sleep(10)
+        if (fromTokenIsETH && toTokenIsWeth) {
+          button = page.locator(`text="Wrap ${fromToken.name} for ${toToken.name}"`)
+        } else if (fromTokenIsWeth && toTokenIsEth) {
+          button = page.locator(`text="Unwrap ${fromToken.name} for ${toToken.name}"`)
+        } else {
+          button = page.locator(`text="Swap ${fromToken.name} for ${toToken.name}"`)
         }
 
-        const button = page.locator(`text="Swap ${fromToken.name} for ${toToken.name}"`)
+        try {
+          await expect(button).toBeEnabled({ timeout: 10 * 1000 })
+        } catch {
+          if (!fromTokenIsETH) {
+            const buttonAllow = page.locator('text="Allow"')
+
+            await expect(buttonAllow).toBeEnabled({ timeout: 10 * 1000 })
+            await buttonAllow.click()
+            await sleep(10)
+          }
+        }
+
+        // const button =
+        //   page.locator(`text="Swap ${fromToken.name} for ${toToken.name}"`) ||
+        //   page.locator(`text="Wrap ${fromToken.name} for ${toToken.name}"`) ||
+        //   page.locator(`text="Unwrap ${fromToken.name} for ${toToken.name}"`)
+
         await expect(button).toBeEnabled({ timeout: 10 * 1000 })
         await button.click()
         await sleep(10)

@@ -2,10 +2,9 @@ import Big from "big.js"
 
 import { config } from "../config"
 import { getTokenBalance } from "./getTokenBalance"
-import { USDCToken, USDTToken, WETHToken } from "../contracts"
-import { claimLskHolding, claimUsdcHolding, claimUsdtHolding, Controller } from "../tasks"
+import { LSKToken, USDCToken, USDTToken, WETHToken } from "../contracts"
+import { Controller } from "../tasks"
 import { getRandomNumber } from "./getRandomNumber"
-import { AxiosInstance } from "axios"
 
 const getRandomAction = async (controller: Controller) => {
   const possibleActions: Array<() => Promise<string>> = []
@@ -17,7 +16,7 @@ const getRandomAction = async (controller: Controller) => {
   const usdtBalance = Number(await getTokenBalance(controller.wallet.address, USDTToken))
   const usdcBalance = Number(await getTokenBalance(controller.wallet.address, USDCToken))
   const wethBalance = Number(await getTokenBalance(controller.wallet.address, WETHToken))
-  const lskBalance = Number(await getTokenBalance(controller.wallet.address, WETHToken))
+  const lskBalance = Number(await getTokenBalance(controller.wallet.address, LSKToken))
 
   const requiredBalance = new Big(config.minBalance).plus(config.ethAmountToSwap.to)
   const isBalanceSufficientToSwapEth = new Big(ethBalance).gt(requiredBalance)

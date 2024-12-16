@@ -1,3 +1,4 @@
+import chalk from "chalk"
 import { AxiosInstance } from "axios"
 
 import { claimTaskQuery, walletInfoQuery } from "./queries"
@@ -5,7 +6,6 @@ import { Task } from "../types"
 import { getRandomNumber, logger, sleep } from "../../helpers"
 import { Wallet } from "../../db/database"
 import { config } from "../../config"
-import chalk from "chalk"
 
 const claimTask = async (address: string, taskId: number, taskDescription: string, axiosInstance: AxiosInstance) => {
   try {
@@ -28,6 +28,10 @@ const claimAllTasks = async (wallet: Wallet, axiosInstance: AxiosInstance) => {
   for (let attempt = 1; attempt <= config.maxRetries; attempt++) {
     try {
       const info = await getInfo(wallet, axiosInstance)
+
+      logger.info(`${wallet.name} has ${info?.points} points and #${info?.rank}th in leaderboard`)
+
+      await claimTask(wallet.address, 1, "Visit Lisk Portal Daily", axiosInstance)
 
       if (info?.tasks.length) {
         for (const task of info.tasks) {
@@ -61,8 +65,6 @@ const getInfo = async (
   | undefined
 > => {
   try {
-    logger.info(`Wallet ${wallet.name} | Getting Lisk tasks data`)
-
     const response = await axiosInstance.post("https://portal-api.lisk.com/graphql", walletInfoQuery(wallet.address))
 
     const data = response.data?.data?.userdrop?.user
@@ -92,4 +94,4 @@ const claimUsdtHolding = async (wallet: Wallet, axiosInstance: AxiosInstance) =>
   await claimTask(wallet.address, 9, "Hold any amount of USDT", axiosInstance)
 }
 
-export { claimAllTasks, claimLskHolding, claimUsdcHolding, claimUsdtHolding }
+export { claimAllTasks, claimLskHolding, claimUsdcHolding, claimUsdtHolding, claimTask, getInfo }

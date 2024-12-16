@@ -53,12 +53,12 @@ const farm = async () => {
       if (!wallet.isInitialDone) {
         await initialActions(controller, axiosInstance)
         await updateNextActionDate(wallet.privateKey, getRandomNumber(config.actionsDelay.from, config.actionsDelay.to))
+        await browser.close()
         await updateInitialActions(wallet.privateKey)
 
         const nextWallet = await getNextWallet()
         logger.info(`The next closest action will be performed at ${nextWallet?.nextActionDate}`)
 
-        await browser.close()
         continue
       }
 
@@ -70,6 +70,9 @@ const farm = async () => {
 
         await updateNextActionDate(wallet.privateKey, getRandomNumber(config.actionsDelay.from, config.actionsDelay.to))
         await browser.close()
+        const nextWallet = await getNextWallet()
+
+        logger.info(`The next closest action will be performed at ${nextWallet?.nextActionDate}`)
         continue
       }
 
@@ -78,6 +81,7 @@ const farm = async () => {
       if (!status.includes("Failed")) {
         logger.info(status)
         await updateNextActionDate(wallet.privateKey, getRandomNumber(config.actionsDelay.from, config.actionsDelay.to))
+        await browser.close()
         await claimAllTasks(wallet, axiosInstance)
 
         const nextWallet = await getNextWallet()
@@ -87,8 +91,6 @@ const farm = async () => {
         logger.error(status)
         await updateNextActionDate(wallet.privateKey, config.delayInCaseOfError)
       }
-
-      await browser.close()
     }
   }
 }
